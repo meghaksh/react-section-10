@@ -29,7 +29,7 @@ const passwdReducer = (state, action) => {
     return { value: action.val, isValid: action.val.trim().length > 6 };
   }
   if (action.type === "INPUT_BLUR") {
-    return { value: state.val, isValid: state.val.trim().length > 6 };
+    return { value: state.val, isValid: state.value.trim().length > 6 };
   }
   return {
     value: "",
@@ -42,8 +42,8 @@ const Login = (props) => {
    * which includes user inputs and their validity.
    * We can use reducers to keep track of such
    */
-  //const [enteredEmail, setEnteredEmail] = useState("");
-  //const [emailIsValid, setEmailIsValid] = useState();
+  // const [enteredEmail, setEnteredEmail] = useState("");
+  // const [emailIsValid, setEmailIsValid] = useState();
   // const [enteredPassword, setEnteredPassword] = useState("");
   // const [passwordIsValid, setPasswordIsValid] = useState();
   const [formIsValid, setFormIsValid] = useState(false);
@@ -58,37 +58,43 @@ const Login = (props) => {
     isValid: null,
   });
 
+  const { isValid: emailIsValid } = emailState;
+  const { isValid: passwordIsValid } = passwordState;
+
   /**Commenting useEffect code to understand useReducer */
   // useEffect(() => {
   //   console.log("Type 1");
   // }, [enteredEmail]);
 
-  // /**The setFormIsValid function will run every 500 ms.
-  //  * Here we have clean function which clear the timeout.
-  //  * Cleanup function runs before every execution of the useEffect,
-  //  * except the first execution.
-  //  */
-  // useEffect(() => {
-  //   const identifier = setTimeout(() => {
-  //     console.log("checking form validity");
-  //     setFormIsValid(
-  //       enteredEmail.includes("@") && enteredPassword.trim().length > 6
-  //     );
-  //   }, 500);
-  //   return () => {
-  //     console.log("Cleanup");
-  //     clearTimeout(identifier);
-  //   };
-  //   /**Below lines are executed on every keystroke.
-  //    * We want to make sure that these are executed on every 500 ms.
-  //    * For that we have used them inside a timer.
-  //    */
-  //   // console.log("checking form validity");
-  //   // setFormIsValid(
-  //   //   enteredEmail.includes("@") && enteredPassword.trim().length > 6
-  //   // );
-  // }, [enteredEmail, enteredPassword]);
-
+  /**The setFormIsValid function will run every 500 ms.
+   * Here we have clean function which clear the timeout.
+   * Cleanup function runs before every execution of the useEffect,
+   * except the first execution.
+   */
+  useEffect(() => {
+    const identifier = setTimeout(() => {
+      // console.log("checking form validity");
+      setFormIsValid(
+        //enteredEmail.includes("@") && enteredPassword.trim().length > 6
+        //emailState.isValid && passwordState.isValid
+        emailIsValid && passwordIsValid
+      );
+    }, 500);
+    return () => {
+      // console.log("Cleanup");
+      clearTimeout(identifier);
+    };
+    /**Below lines are executed on every keystroke.
+     * We want to make sure that these are executed on every 500 ms.
+     * For that we have used them inside a timer.
+     */
+    // console.log("checking form validity");
+    // setFormIsValid(
+    //   enteredEmail.includes("@") && enteredPassword.trim().length > 6
+    // );
+    //}, [enteredEmail, enteredPassword]);
+    // }, [emailState, passwordState]);
+  }, [emailIsValid, passwordIsValid]);
   /**Here email change handler will check on the every keystroke if the form is valid.
    * Therefor, setForIsValid is a side effect of the email value change in the input field.
    * We remove it from below and add as a side effect with dependency on enteredEmail and password.
@@ -126,7 +132,7 @@ const Login = (props) => {
   };
 
   const validateEmailHandler = () => {
-    // setEmailIsValid(enteredEmail.includes("@"));
+    //setEmailIsValid(enteredEmail.includes("@"));
     //setEmailIsValid(emailState.isValid);
     dispatchEmail({ type: "INPUT_BLUR" });
   };
