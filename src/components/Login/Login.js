@@ -3,6 +3,7 @@ import React, { useState, useEffect, useReducer } from "react";
 import Card from "../UI/Card/Card";
 import classes from "./Login.module.css";
 import Button from "../UI/Button/Button";
+import Input from "../UI/Input/Input";
 
 /**This reducerfunction for the first argument of useReducer is created
  * outside the component function.
@@ -156,7 +157,10 @@ const Login = (props) => {
             emailIsValid === false ? classes.invalid : ""
           }`}
         > */}
-        <div
+
+        {/* The whole div with label and input inside it, replaced by Input component which is generic. 
+        Same for email and password both.  */}
+        {/* <div
           className={`${classes.control} ${
             emailState.isValid === false ? classes.invalid : ""
           }`}
@@ -169,20 +173,20 @@ const Login = (props) => {
             onChange={emailChangeHandler}
             onBlur={validateEmailHandler}
           /> */}
-          <input
+        {/* <input
             type="email"
             id="email"
             value={emailState.value}
             onChange={emailChangeHandler}
             onBlur={validateEmailHandler}
-          />
-        </div>
+          /> 
+        //</div> */}
         {/* <div
           className={`${classes.control} ${
             passwordIsValid === false ? classes.invalid : ""
           }`}
         > */}
-        <div
+        {/* <div
           className={`${classes.control} ${
             passwordState.isValid === false ? classes.invalid : ""
           }`}
@@ -194,7 +198,7 @@ const Login = (props) => {
             value={enteredPassword}
             onChange={passwordChangeHandler}
             onBlur={validatePasswordHandler}
-          /> */}
+          /> }
           <input
             type="password"
             id="password"
@@ -202,7 +206,26 @@ const Login = (props) => {
             onChange={passwordChangeHandler}
             onBlur={validatePasswordHandler}
           />
-        </div>
+        </div> */}
+
+        {/* Below we have used custom Input component which is generic, replaced in place of above code 
+      with  div and label, input inside that div */}
+        <Input
+          id="email"
+          label="E-Mail"
+          isValid={emailIsValid}
+          value={emailState.value}
+          onChange={emailChangeHandler}
+          onBlur={validateEmailHandler}
+        />
+        <Input
+          id="password"
+          label="Password"
+          isValid={passwordIsValid}
+          value={passwordState.value}
+          onChange={passwordChangeHandler}
+          onBlur={validatePasswordHandler}
+        />
         <div className={classes.actions}>
           <Button type="submit" className={classes.btn} disabled={!formIsValid}>
             Login

@@ -29,15 +29,32 @@ function App() {
   };
 
   return (
-    <React.Fragment>
-      <AuthContext>
-        <MainHeader isAuthenticated={isLoggedIn} onLogout={logoutHandler} />
-        <main>
-          {!isLoggedIn && <Login onLogin={loginHandler} />}
-          {isLoggedIn && <Home onLogout={logoutHandler} />}
-        </main>
-      </AuthContext>
-    </React.Fragment>
+    // <React.Fragment>
+
+    //Below lines of code is used when using consumer in the children. (navigation)
+    // here we removed the prop isAuthenticated from the MainHeader as,
+    // now we are using context in the Provider which is a parent.
+    // also we removed onLogout handler from the MainHeder and
+    // added inside context (making context dynamic)
+    <AuthContext.Provider
+      value={{ isLoggedIn: isLoggedIn, onLogout: logoutHandler }}
+    >
+      <MainHeader />
+      <main>
+        {!isLoggedIn && <Login onLogin={loginHandler} />}
+        {isLoggedIn && <Home onLogout={logoutHandler} />}
+      </main>
+    </AuthContext.Provider>
+
+    // </React.Fragment>
+
+    // <AuthContext.Provider value={{ isLoggedIn: isLoggedIn }}>
+    //   <MainHeader isAuthenticated={isLoggedIn} onLogout={logoutHandler} />
+    //   <main>
+    //     {!isLoggedIn && <Login onLogin={loginHandler} />}
+    //     {isLoggedIn && <Home onLogout={logoutHandler} />}
+    //   </main>
+    // </AuthContext.Provider>
   );
 }
 

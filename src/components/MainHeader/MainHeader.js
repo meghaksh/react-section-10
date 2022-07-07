@@ -1,14 +1,27 @@
-import React from 'react';
+import React from "react";
 
-import Navigation from './Navigation';
-import classes from './MainHeader.module.css';
+import Navigation from "./Navigation";
+import classes from "./MainHeader.module.css";
 
 const MainHeader = (props) => {
   return (
-    <header className={classes['main-header']}>
+    //below lines of code is used when using Consumer for authcontext.
+    //we removed the isLoggedIn prop passed in Navigation component.
+    // we stop forwarding it because we have used contenx in the provider
+    //instead of a prop chain.
+    // also we removed onLoutout
+    <header className={classes["main-header"]}>
       <h1>A Typical Page</h1>
-      <Navigation isLoggedIn={props.isAuthenticated} onLogout={props.onLogout} />
+      <Navigation />
     </header>
+
+    // <header className={classes["main-header"]}>
+    //   <h1>A Typical Page</h1>
+    //   <Navigation
+    //     isLoggedIn={props.isAuthenticated}
+    //     onLogout={props.onLogout}
+    //   />
+    // </header>
   );
 };
 
